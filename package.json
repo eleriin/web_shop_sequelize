@@ -1,0 +1,16 @@
+{
+  "name": "web_shop_sequelize",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.19.1",
+    "sequelize": "^6.37.8"
+  }
+}
