@@ -14,6 +14,17 @@ class adminController {
             productId: product.id
         })
     }
+
+    async getAllProducts(req,res) {
+        try{
+            const products = await Product.findAll()
+            console.log(products)
+            res.status(200).json({ products })
+        } catch (err) {
+            console.error('viga getallproducts (admin)',err)
+            res.status(500).json({error:'server error'})
+        }
+    }
 }
 
 module.exports = new adminController()
