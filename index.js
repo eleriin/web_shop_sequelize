@@ -5,15 +5,25 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const productAdminRoutes = require('./routes/admin/products')
+app.use('/admin', productAdminRoutes)
+
+const productRoutes = require('./routes/products')
+app.use('/products',productRoutes)
+
 const sequelize = require('./util/db')
+   
+const models = require('./models/index');
+
+sequelize.models = models
 
 sequelize
-    .authenticate()
-    .then(() =>{
-        console.log('Connection as been established successfully.');
+    .sync()
+    .then(()=> {
+        console.log('Tabelid on loodud')
     })
-    .catch((error) =>{
-        console.error('unable to connect to the database.',error)
+    .catch((error)=> {
+        console.log(error)
     })
 
 app.get('/', (req,res) => {
