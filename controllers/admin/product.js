@@ -25,6 +25,21 @@ class adminController {
             res.status(500).json({error:'server error'})
         }
     }
+
+    async getProductById (req, res) {
+        try{ 
+            const productId = req.params.id
+            const product = await Product.findByPk(productId)
+
+            if(!product) {
+                return res.status(404).json({ error: 'toodet ei leitud'})
+            }
+            res.status(200).json({ product })
+        }  catch (err) {
+            console.error('viga getprodcutbyid admin',err)
+            res.status(500).json({ error: 'server error'})
+        }
+    }
 }
 
 module.exports = new adminController()
