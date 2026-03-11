@@ -40,6 +40,30 @@ class adminController {
             res.status(500).json({ error: 'server error'})
         }
     }
+
+    async updateProduct(req, res){
+        try{
+            const productId = req.params.id
+            if (req.query.edit !== 'true'){
+                return res.status(403).json({error: 'muutmine pole lubatud'})
+            }
+
+            const { title, price, imageUrl, description } = req.body
+            
+            const product = await Product.findByPk(productId)
+            if (!product) {
+                return res.status(404).json({ error: 'toodet ei leitud'})
+            }
+
+            await product.update({ title, price, imageUrl, description })
+            
+            res.status(200).json({ message:'toode on uuendatud', product })
+        } catch (err) {
+            console.error('viga updateproduct admin', err)
+            res.status(500).json({ error: 'server error'})
+        }
+
+    }
 }
 
 module.exports = new adminController()
