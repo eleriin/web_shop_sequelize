@@ -10,12 +10,5 @@ const Order = sequelize.define('order', {
     }
 })
 
-Order.associate = function(models){
-
-    Order.belongsTo(models.user)
-
-    Order.belongsToMany(models.product, { through: 'orderItems' })
-
-}
 
 module.exports = Order

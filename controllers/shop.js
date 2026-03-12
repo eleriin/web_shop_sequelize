@@ -73,6 +73,64 @@ class shopController {
             res.status(500).json({ error: 'server error 2' });
         }
     }
+    async createOrder(req, res) {
+        try {
+            const cart = await req.user.getCart();
+            const products = await cart.getProducts();
+
+            if (products.length === 0) {
+                return res.status(400).json({ error: 'Ostukorv on tühi' });
+            }
+
+            const order = await req.user.createOrder();
+
+            const orderItemsData = products.map(product => ({
+                ...product.dataValues,
+                quantity: 1 
+            }));
+
+            for (const product of products) {
+                await order.addProduct(product, { through: { quantity: 1 } });
+            }
+
+            await cart.setProducts([]); 
+
+            res.status(200).json({ message: 'Tellimus edukalt vormistatud', orderId: order.id });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Server error tellimuse loomisel' });
+        }
+    }
+    async createOrder(req, res) {
+        try {
+            const cart = await req.user.getCart()
+            const products = await cart.getProducts()
+
+            if (products.length === 0) return res.status(400).json({ error: 'Ostukorv on tühi' })
+
+            const order = await req.user.createOrder()
+            await order.addProducts(products) // lihtsalt seos ilma quantity
+
+            await cart.setProducts([]) // puhasta ostukorv
+
+            res.status(200).json({ message: 'Tellimus edukalt vormistatud', orderId: order.id })
+        } catch (err) {
+            console.error(err)
+            res.status(500).json({ error: 'Server error tellimuse loomisel' })
+        }
+    }
+
+    async getOrders(req, res) {
+        try {
+            const orders = await req.user.getOrders({
+                include: [{ model: require('../models/index').Product }]
+            })
+            res.status(200).json({ orders })
+        } catch (err) {
+            console.error(err)
+            res.status(500).json({ error: 'Server error tellimuste pärimisel' })
+        }
+    }
 }
 
 module.exports = new shopController()

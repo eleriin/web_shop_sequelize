@@ -26,6 +26,7 @@ app.use('/products',productRoutes)
 
 const shopRoutes = require('./routes/shop')
 app.use(shopRoutes)
+
 sequelize
     .sync({ alter: true })
     .then(()=> {
