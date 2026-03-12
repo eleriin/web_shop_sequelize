@@ -9,4 +9,9 @@ router.get('/:id', (req,res)=> productController.getProductById(req,res))
 
 router.put('/:id', (req,res)=> productController.updateProduct(req,res))
 
+router.delete('/:id', (req,res)=> {
+    console.log('delete p2ring id',req.params.id)
+    productController.deleteProduct(req,res)
+})
+
 module.exports = router

@@ -7,7 +7,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const productAdminRoutes = require('./routes/admin/products')
 app.use('/admin', productAdminRoutes)
-app.use('/admin/products', productAdminRoutes)
 
 const productRoutes = require('./routes/products')
 app.use('/products',productRoutes)

@@ -62,7 +62,23 @@ class adminController {
             console.error('viga updateproduct admin', err)
             res.status(500).json({ error: 'server error'})
         }
+    }
+    async deleteProduct(req, res){
+        try{
+            const productId = req.params.id
+           
+            const product = await Product.findByPk(productId)
+            if (!product) {
+                return res.status(404).json({ error: 'toodet ei leitud'})
+            }
 
+            await product.destroy()
+            
+            return res.status(200).json({ message:'toode on kustutatud', product })
+        } catch (err) {
+            console.error('viga deleteproduct admin', err)
+            res.status(500).json({ error: 'server error'})
+        }
     }
 }
 
