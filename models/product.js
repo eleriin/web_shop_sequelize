@@ -22,5 +22,9 @@ const Product = sequelize.define('product', {
         allowNull: false
     }
 })
+Product.associate = function(models){
+    Product.belongsToMany(models.cart, { through: 'cartItems'})
+    Product.belongsToMany(models.order, { through: 'orderItems'})
+}
 
 module.exports = Product
