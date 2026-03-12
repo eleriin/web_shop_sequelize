@@ -24,6 +24,8 @@ app.use('/admin', productAdminRoutes)
 const productRoutes = require('./routes/products')
 app.use('/products',productRoutes)
 
+const shopRoutes = require('./routes/shop')
+app.use(shopRoutes)
 sequelize
     .sync({ alter: true })
     .then(()=> {
@@ -36,7 +38,10 @@ sequelize
         return user
     })
     .then((user)=>{
-        console.log('testuser', user.id)
+        return user.createCart()
+    })
+    .then((cart)=>{
+        console.log(cart)
     })
     .catch((error)=> {
         console.log(error)

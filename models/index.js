@@ -28,9 +28,15 @@ module.exports = (()=> {
     }
 models.User = require('./user.js')
 models.Product = require('./product.js')
+models.Cart = require('./cart.js')
+models.CartItem = require('./cart-items.js')
 
 models.User.hasMany(models.product)
 models.Product.belongsTo(models.user, {constraints: true, onDele:'CASCADE'})
+models.User.hasOne(models.Cart)
+models.Cart.belongsTo(models.User)
+models.Cart.belongsToMany(models.Product, {through: models.CartItem})
+models.Product.belongsToMany(models.Cart, {through: models.CartItem})
 
     return models
 
